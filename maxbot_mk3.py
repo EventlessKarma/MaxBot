@@ -6,15 +6,9 @@ import matplotlib.pyplot as plt
 import os
 import math
 
-plt.style.use('Solarize_Light2')    
-
-""" TO DO
-check
-check with no argument
-with advantage
-case with d eg d3
-
-"""
+plt.style.use('Solarize_Light2')
+global db
+db = rdb.RollDatabase()
 
 def roll_dice(dice: int):
     return np.random.randint(dice) + 1
@@ -24,19 +18,21 @@ def update_database(user_id: int, dice: int, roll: int):
     
     try:
         # check dice table
-        if rdb.check_table(dice) == False:
-            rdb.create_table(dice)
+        if db.check_table(dice) == False:
+            db.create_table(dice)
     
         # check user 
-        if rdb.check_user(user_id, dice) == False:
-            rdb.new_user(user_id, dice)
+        if db.check_user(user_id, dice) == False:
+            db.new_user(user_id, dice)
             
         # update roll
-        rdb.update_roll(user_id, dice, roll)
+        db.update_roll(user_id, dice, roll)
         
-    except:
-        print("Could not save roll")
+    except ValueError:
+        print("Invalid dice size")
         return False
+    else:
+        print("Error updating database")
     
     return True
     
@@ -272,21 +268,25 @@ class MyClient(discord.Client):
             
             try: 
                 dice = int(args[1])
-            except:
+                db.check_dice(dice)
+            except ValueError:
+                await message.channel.send("Invalid dice size")
                 return
+            else:
+                await message.channel.send("I don't think thats a number")
             
-            if not rdb.check_table(dice) or not rdb.check_user(message.author.id, dice):
-                await message.channel.send("Dont have data for this request")
+            if not db.check_table(dice) or not db.check_user(message.author.id, dice):
+                await message.channel.send("Don't have data for this request")
                 return
             
             # get users roll history
-            rolls = rdb.get_rolls(message.author.id, dice)
+            rolls = db.get_rolls(message.author.id, dice)
     
             # make x coords
             x = []
             for i in range(1, dice+1):
                 x.append(i)
-            y = rolls[0][1:-1]
+            y = rolls[1:-1]
             
             # plot bar graph
             plt.bar(x, y, width = 1, color='green', edgecolor='black')
@@ -313,8 +313,12 @@ class MyClient(discord.Client):
             
             try:
                 dice = int(args[1])
-            except:
+                db.check_dice(dice)
+            except ValueError:
+                await message.channel.send("Invalid dice size")
                 return
+            else:
+                await message.channel.send("I don't think thats a number")
             
             rolls = rdb.get_all_rolls(message.author.id, dice)
         
