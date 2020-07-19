@@ -15,7 +15,7 @@ with advantage
 case with d eg d3
 
 """
-
+# wow
 
 def roll_dice(dice: int):
     return np.random.randint(dice) + 1
