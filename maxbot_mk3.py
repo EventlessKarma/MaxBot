@@ -16,7 +16,6 @@ case with d eg d3
 
 """
 
-
 def roll_dice(dice: int):
     return np.random.randint(dice) + 1
 
@@ -381,7 +380,7 @@ class MyClient(discord.Client):
             await message.delete()
         
         
-tok_file = open("../token.txt", "r")
+tok_file = open("token.txt", "r")
 TOKEN = tok_file.readline()
 
 client = MyClient()
