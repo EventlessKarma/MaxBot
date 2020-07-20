@@ -31,7 +31,7 @@ def update_database(user_id: int, dice: int, roll: int):
     except ValueError:
         print("Invalid dice size")
         return False
-    else:
+    except:
         print("Error updating database")
     
     return True

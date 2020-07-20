@@ -7,6 +7,7 @@ class RollDatabase:
     def __init__(self, db_name: str = "roll_data/" + str(datetime.date.today()) + ".db"):
         self.conn = sql.connect(db_name)
         self.cursor = self.conn.cursor()
+        print("Opened {}".format(db_name))
         return
 
     def check_dice(self, dice: int):
@@ -44,14 +45,17 @@ class RollDatabase:
 
     def get_rolls(self, user_id: int, dice: int):
     
-        self.check_dice(dice)
-    
         try:
-            self.cursor.execute("SELECT * FROM d{} WHERE user_id == {}".format(dice, user_id))
-            row = self.cursor.fetchall()
-        except:
+            self.check_dice(dice)
+        except ValueError:
+            return []
 
-            return False
+        if not self.check_table(dice) or not self.check_user(user_id, dice):
+            return [] 
+    
+        self.cursor.execute("SELECT * FROM d{} WHERE user_id == {}".format(dice, user_id))
+        row = self.cursor.fetchall()
+        print(row)
     
         return row[0]
 
@@ -92,8 +96,35 @@ class RollDatabase:
         except sql.OperationalError:
             return False
 
-        return True    
+        return True
+
+    def close(self):
+        self.conn.close()
 
 
 def get_all_rolls(user_id: int, dice: int):
-    return RollDatabase().get_rolls(user_id, dice)
+    
+    test = RollDatabase()
+    try:
+        test.check_dice(dice)
+    except ValueError:
+        return []
+
+
+    all_roll = []
+    for file in os.listdir("roll_data/"):
+        db = RollDatabase(os.path.join("roll_data/",file))
+        temp = db.get_rolls(user_id, dice)
+        if not len(temp):
+            continue
+        else:
+            all_roll.append(temp)
+
+    lst = []
+    for i in range(len(all_roll[0])):
+        temp = 0
+        for j in all_roll:
+            temp += j[i]
+        lst.append(temp)
+    
+    return lst
