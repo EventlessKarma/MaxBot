@@ -191,7 +191,7 @@ class MyClient(discord.Client):
         
         
         if args[0] == prefix + "test":
-            conn = sqlite3.connect("roll_data/2020-07-21.db")
+            conn = sqlite3.connect("../MaxBot_data/roll_data/2020-07-21.db")
             cur = conn.cursor()
             #cur.execute("SELECT * FROM d20")
             cur.execute("SELECT * FROM d20 WHERE user_id == {}".format(message.author.id))
@@ -199,7 +199,7 @@ class MyClient(discord.Client):
             print(row)
 
 # retrieve the token to log in
-tok_file = open("token.txt", "r")
+tok_file = open("../MaxBot_data/token.txt", "r")
 TOKEN = tok_file.readline()
 
 # start maxbot

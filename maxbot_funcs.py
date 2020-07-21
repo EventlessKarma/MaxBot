@@ -206,7 +206,7 @@ def get_stats(user_name: str, user_id: int, args, date: str = "today"):
     plt.xlabel("Roll")
             
     # save image to send
-    image_name = "temp_stat.png"
+    image_name = "../MaxBot_data/temp_stat.png"
     plt.savefig(image_name)
     plt.clf()
 
