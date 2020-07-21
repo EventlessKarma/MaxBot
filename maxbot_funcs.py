@@ -2,6 +2,7 @@ import roll_database as rdb
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import random
 
 def check_dice(dice: int):
 
@@ -167,7 +168,7 @@ def checks_roll(user_id: int, args, adv: bool = False):
         return roll, modifier
 
 
-def get_stats(user_id: int, args, date: str = "today"):
+def get_stats(user_name: str, user_id: int, args, date: str = "today"):
     
     # get dice and check size
     try:
@@ -196,7 +197,7 @@ def get_stats(user_id: int, args, date: str = "today"):
     plt.yticks(yint)
     xint = range(1, dice+1)
     plt.xticks(xint)
-    plt.title(message.author.name + " d" + str(dice) + " rolls")
+    plt.title(user_name + " d" + str(dice) + " rolls")
     plt.ylabel("Frequency")
     plt.xlabel("Roll")
             
@@ -208,7 +209,12 @@ def get_stats(user_id: int, args, date: str = "today"):
     return image_name
 
 
-
+def random_line(afile):
+    line = next(afile)
+    for num, aline in enumerate(afile, 2):
+      if random.randrange(num): continue
+      line = aline
+    return line
 
 
 def help():

@@ -149,66 +149,54 @@ class MyClient(discord.Client):
             await message.channel.send(msg)
             await message.delete()            
             
-            
+        # stats command will send graph of current day's rolls
         if args[0] == prefix + "stats":
             
-            image_name = maxbot_funcs.get_stats(message.author.id, args)
+            # generate png graph
+            image_name = maxbot_funcs.get_stats(message.author.name, message.author.id, args)
 
+            # send graph and delete
             await message.channel.send(file=discord.File(image_name))
             await message.delete()
             os.remove(image_name)
             return
         
         
-        
+        # statsall command sends graph of all saved rolls
         if args[0] == prefix + "statsall":
             
-            image_name = maxbot_funcs.get_stats(message.autor.id, args, date="all")
+            # generate png graph
+            image_name = maxbot_funcs.get_stats(message.author.name, message.autor.id, args, date="all")
 
+            # send graph and delete
             await message.channel.send(file=discord.File(image_name))
             await message.delete()
             os.remove(image_name)
             return            
         
         
-        
+        # if maxbot is mentioned, insult the messenger 
         if "maxbot" in message.content.lower() or "max bot" in message.content.lower():
             
-            insult = [
-                "Bellend",
-                "Knobhead",
-                "Fuck off",
-                "Fuck you",
-                "Prick",
-                "Dickhead",
-                "You have Herpes",
-                "Nice cock",
-                "Suck a fat one",
-                "You bring everyone so much joy, when you leave the room.",
-                "I think if you look at the facts, you'll find that incorrect",
-                "I know you are but what am I?",
-                "Cunt",
-                "Wanker",
-                "No you",
-                "Bitch",
-                
-                      ]
+            # open the insults file
+            try:
+                fi = open("insults.txt")
+            except:
+                pass
             
-            msg = insult[np.random.randint(len(insult))]
-            await message.channel.send(msg)
+            # get a random insult and send
+            insult = maxbot_funcs.random_line(fi)
+            await message.channel.send(insult)
         
         
         if args[0] == prefix + "test":
-            
-            #rolls = rdb.get_rolls(message.author.id, 20)
-            
-            await message.channel.send("/tts Discord's pretty awesome")
-            await message.channel.send("/tts nice")
-            await message.delete()
+            pass
         
-        
+
+# retrieve the token to log in
 tok_file = open("token.txt", "r")
 TOKEN = tok_file.readline()
 
+# start maxbot
 client = MyClient()
 client.run(TOKEN)
