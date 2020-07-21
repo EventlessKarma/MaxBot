@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import math
+import sqlite3
 
 # sets matplotlib theme
 plt.style.use('Solarize_Light2')
@@ -144,7 +145,7 @@ class MyClient(discord.Client):
             msg += "{" + message.author.name + ": ' 1d20 " + sign + " " + str(abs(modifier)) + " with disadvantage'}\n"
             msg += ":20 " + str(roll[0]) + " " + str(roll[1]) + "\n"
             msg += ":" + sign + str(abs(modifier)) + " " + sign + str(abs(modifier)) + "\n"
-            msg += ":Total " + str(roll + modifier) + "\n"
+            msg += ":Total " + str(adv + modifier) + "\n"
             msg += "```"
             await message.channel.send(msg)
             await message.delete()            
@@ -166,7 +167,7 @@ class MyClient(discord.Client):
         if args[0] == prefix + "statsall":
             
             # generate png graph
-            image_name = maxbot_funcs.get_stats(message.author.name, message.autor.id, args, date="all")
+            image_name = maxbot_funcs.get_stats(message.author.name, message.author.id, args, date="all")
 
             # send graph and delete
             await message.channel.send(file=discord.File(image_name))
@@ -190,8 +191,12 @@ class MyClient(discord.Client):
         
         
         if args[0] == prefix + "test":
-            pass
-        
+            conn = sqlite3.connect("roll_data/2020-07-21.db")
+            cur = conn.cursor()
+            #cur.execute("SELECT * FROM d20")
+            cur.execute("SELECT * FROM d20 WHERE user_id == {}".format(message.author.id))
+            row = cur.fetchall()
+            print(row)
 
 # retrieve the token to log in
 tok_file = open("token.txt", "r")

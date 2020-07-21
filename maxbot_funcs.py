@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import random
+import datetime
 
 def check_dice(dice: int):
 
@@ -18,10 +19,12 @@ def update_database(user_id: int, dice: int, roll: int):
 
         # check dice table
         if db.check_table(dice) == False:
+            print("no table")
             db.create_table(dice)
     
         # check user 
         if db.check_user(user_id, dice) == False:
+            print("no user")
             db.new_user(user_id, dice)
             
         # update roll
@@ -180,6 +183,7 @@ def get_stats(user_name: str, user_id: int, args, date: str = "today"):
 
     # for general cases of different days
     if date == "today":
+        date = datetime.date.today()
         db = rdb.RollDatabase()
         rolls = db.get_rolls(user_id, dice)
     else:
@@ -197,7 +201,7 @@ def get_stats(user_name: str, user_id: int, args, date: str = "today"):
     plt.yticks(yint)
     xint = range(1, dice+1)
     plt.xticks(xint)
-    plt.title(user_name + " d" + str(dice) + " rolls")
+    plt.title(user_name + " d" + str(dice) + " rolls - " + str(date))
     plt.ylabel("Frequency")
     plt.xlabel("Roll")
             
@@ -209,6 +213,7 @@ def get_stats(user_name: str, user_id: int, args, date: str = "today"):
     return image_name
 
 
+# stole this to get a random line from file 
 def random_line(afile):
     line = next(afile)
     for num, aline in enumerate(afile, 2):

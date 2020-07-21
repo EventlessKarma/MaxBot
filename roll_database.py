@@ -13,7 +13,6 @@ class RollDatabase:
         # by default current day file will open
         self.conn = sql.connect(db_name)
         self.cursor = self.conn.cursor()
-        print("Opened {}".format(db_name))
         return
 
     # dont want to save very large dice rolls, or negative ones
@@ -116,7 +115,8 @@ class RollDatabase:
             self.conn.commit()   
 
         except sql.OperationalError:
-           return False
+            print("update_roll error")
+            return False
 
         return True     
 
@@ -131,9 +131,14 @@ class RollDatabase:
 
             # attempt to fetch data for the user
             self.cursor.execute("SELECT * FROM d{dice} WHERE user_id == {user_id}".format(dice = dice, user_id = user_id))
+            row = self.cursor.fetchall()
 
         # a failure means user does not exist in database
         except sql.OperationalError:    
+            return False
+
+        # row will be empty if no user
+        if not row:
             return False
     
         # success means user exists
