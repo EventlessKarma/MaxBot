@@ -7,7 +7,7 @@ import os
 # Dice table --> user id, rolls, total rolls
 class RollDatabase:
 
-    def __init__(self, db_name: str = "../MaxBot_data/roll_data/" + str(datetime.date.today()) + ".db"):
+    def __init__(self, db_name: str = "roll_data/" + str(datetime.date.today()) + ".db"):
 
         # open a database file
         # by default current day file will open
@@ -183,10 +183,10 @@ def get_all_rolls(user_id: int, dice: int):
     all_roll = []
 
     # loop over each file in databases directory
-    for file in os.listdir("../MaxBot_data/roll_data/"):
+    for file in os.listdir("roll_data/"):
 
         # open the database
-        db = RollDatabase(os.path.join("../MaxBot_data/roll_data/",file))
+        db = RollDatabase(os.path.join("roll_data/",file))
 
         # get the rolls for the user
         temp = db.get_rolls(user_id, dice)
