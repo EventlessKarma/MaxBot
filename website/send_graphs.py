@@ -1,4 +1,4 @@
-import requests
+import database
 
 
 def send_graphs(user_id: int) -> str:
@@ -50,17 +50,12 @@ chart1.render();
 
     return to_send
 
+
 def get_rolls(user_id, dice=20):
 
-	key = {
-		'id': user_id,
-		'dice': dice,
-		'date': 'today'
-	}
-
-	r = requests.get('http://localhost:9997', params=key)
-	
-	return r.text.split(' ')
+    db = database.RollDatabase()
+    r = db.get_rolls(user_id, dice)
+    return r
 
 
 def data_points(db_rolls: list) -> str:

@@ -1,6 +1,64 @@
 import numpy as np
-import request_rolls
+import database
 import commands
+import matplotlib.pyplot as plt
+import datetime
+import math
+import random
+
+
+def get_stats(user_name: str, user_id: int, args, date: str = "today"):
+    # get dice and check size
+    try:
+        dice = int(args[1])
+    except:
+        return
+    if dice > 100 or dice < 1:
+        return
+
+    # for general cases of different days
+    if date == "today":
+        date = datetime.date.today()
+        db = database.RollDatabase()
+        rolls = db.get_rolls(user_id, dice)
+    else:
+        rolls = database.get_all_rolls(user_id, dice)
+
+    # make x coords
+    x = []
+    for i in range(1, dice + 1):
+        x.append(i)
+    y = rolls[1:-1]
+
+    # plot bar graph
+    plt.bar(x, y, width=1, color='green', edgecolor='black')
+    yint = range(min(y), math.ceil(max(y)) + 1)
+    plt.yticks(yint)
+    xint = range(1, dice + 1)
+    plt.xticks(xint)
+    plt.title(user_name + " d" + str(dice) + " rolls - " + str(date))
+    plt.ylabel("Frequency")
+    plt.xlabel("Roll")
+
+    # save image to send
+    image_name = "../MaxBot_data/temp_stat.png"
+    plt.savefig(image_name)
+    plt.clf()
+
+    return image_name
+
+
+# stole this to get a random line from file
+def random_line(afile):
+    line = next(afile)
+    for num, aline in enumerate(afile, 2):
+        if random.randrange(num): continue
+        line = aline
+    return line
+
+
+def help():
+    pass
 
 
 def roll_to_code_block(self: commands.TextCommands, roll_out: list, total: int) -> str:
@@ -46,7 +104,7 @@ def general_check(self: commands.TextCommands, adv: bool = False) -> (int, int):
     # for normal check roll a d20
     if not adv:
         roll = np.random.randint(20) + 1
-        request_rolls.update_rolls(self.msg_in.author.id, 20, str(roll))
+        database.update_database(self.msg_in.author.id, 20, roll)
         return roll, modifier
 
     # for adv/disadv roll 2d20
@@ -55,7 +113,8 @@ def general_check(self: commands.TextCommands, adv: bool = False) -> (int, int):
         for i in range(2):
             roll[i] += 1
             
-        request_rolls.update_rolls(self.msg_in.author.id, 20, "{} {}".format(roll[0], roll[1]))
+        database.update_database(self.msg_in.author.id, 20, roll[0])
+        database.update_database(self.msg_in.author.id, 20, roll[1])
             
         return roll, modifier
 
@@ -81,15 +140,14 @@ def d_check(self: commands.TextCommands, arg: str) -> (int, str):
 
     rands = np.random.randint(dice, size=n_rolls)
 
-    temp_msg = str(rands[0] + 1)
-    temp_total = rands[0] + 1
+    temp_msg = ""
+    temp_total = 0
 
-    for r in rands[1:]:
+    for r in rands:
         r += 1
-        temp_msg += " " + str(r)
+        database.update_database(self.msg_in.author.id, dice, r)
+        temp_msg += str(r) + " "
         temp_total += r
-    
-    request_rolls.update_rolls(self.msg_in.author.id, dice, temp_msg)
 
     return temp_total, temp_msg
 
@@ -113,7 +171,7 @@ def r_check(self: commands.TextCommands, arg: str) -> (int, str):
     try:
         dice = int(arg)
         temp_r = np.random.randint(dice) + 1
-        request_rolls.update_rolls(self.msg_in.author.id, dice, str(temp_r))
+        database.update_database(self.msg_in.author.id, dice, temp_r)
         return temp_r, str(temp_r)
 
     except ValueError:
