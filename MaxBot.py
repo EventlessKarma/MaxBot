@@ -37,4 +37,4 @@ tok_file.close()
 
 # start maxbot
 client = MaxBot()
-client.run()
+client.run(TOKEN)
