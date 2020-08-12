@@ -1,6 +1,5 @@
 import numpy as np
 import database
-import commands
 import matplotlib.pyplot as plt
 import datetime
 import math
@@ -61,7 +60,7 @@ def help():
     pass
 
 
-def roll_to_code_block(self: commands.TextCommands, roll_out: list, total: int) -> str:
+def roll_to_code_block(self, roll_out: list, total: int) -> str:
 
     # start code block
     msg = "```css\n"
@@ -85,7 +84,7 @@ def roll_to_code_block(self: commands.TextCommands, roll_out: list, total: int) 
     return msg
 
 
-def general_check(self: commands.TextCommands, adv: bool = False) -> (int, int):
+def general_check(self, adv: bool = False) -> (int, int):
 
     # if no modifier arg is found set it to 0
     if len(self.msg_args):
@@ -119,7 +118,7 @@ def general_check(self: commands.TextCommands, adv: bool = False) -> (int, int):
         return roll, modifier
 
 
-def d_check(self: commands.TextCommands, arg: str) -> (int, str):
+def d_check(self, arg: str) -> (int, str):
     
     # find position of d
     d_pos = arg.rfind('d')
@@ -152,7 +151,7 @@ def d_check(self: commands.TextCommands, arg: str) -> (int, str):
     return temp_total, temp_msg
 
 
-def m_check(self: commands.TextCommands, arg: str) -> (int, str):
+def m_check(self, arg: str) -> (int, str):
     
     if arg.rfind('+') == -1 and arg.rfind('-') == -1:
         raise RuntimeError('Inappropriate argument for m_check')
@@ -166,7 +165,7 @@ def m_check(self: commands.TextCommands, arg: str) -> (int, str):
         raise RuntimeError('Inappropriate argument for m_check')
 
 
-def r_check(self: commands.TextCommands, arg: str) -> (int, str):
+def r_check(self, arg: str) -> (int, str):
     
     try:
         dice = int(arg)
