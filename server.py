@@ -21,7 +21,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         except ValueError:
             return
 
-        template = open('website/stats_template.html', 'r')
+        template = open('website/google_chart_template.html', 'r')
         template_text = template.read()
         template.close()
         to_send = template_text.replace('DATA_POINTS_IN', roll_to_text(user_id, 20, 'all'))
