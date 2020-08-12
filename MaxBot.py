@@ -1,11 +1,5 @@
 import discord
 import commands
-import multiprocessing
-import sys
-
-sys.path.insert(1, '/website')
-
-import serv
 
 
 class MaxBot(discord.Client):
@@ -43,9 +37,4 @@ tok_file.close()
 
 # start maxbot
 client = MaxBot()
-
-p1 = multiprocessing.Process(target=client.run)
-p2 = multiprocessing.Process(target=serv.run_server)
-
-p1.join()
-p2.join()
+client.run()
