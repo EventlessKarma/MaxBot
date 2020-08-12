@@ -14,6 +14,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         self.set_headers()
 
+        print(self.path)
+
         try:
             user_id = int(self.path[1:])
         except ValueError:
