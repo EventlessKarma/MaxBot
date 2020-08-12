@@ -22,6 +22,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         template = open('website/stats_template.html', 'r')
         text = template.read()
         text.replace('DATA_POINTS_IN', roll_to_text(user_id, 20, 'all'))
+        print(text)
         self.wfile.write(bytes(text, 'utf-8'))
 
 
