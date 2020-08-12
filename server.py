@@ -22,10 +22,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
 
         template = open('website/stats_template.html', 'r')
-        text = template.read()
-        text.replace('DATA_POINTS_IN', roll_to_text(user_id, 20, 'all'))
-        print(text)
-        self.wfile.write(bytes(text, 'utf-8'))
+        template_text = template.read()
+        template.close()
+        to_send = template_text.replace('DATA_POINTS_IN', roll_to_text(user_id, 20, 'all'))
+        print(to_send)
+        self.wfile.write(bytes(to_send, 'utf-8'))
 
 
 def roll_to_text(user_id: int, dice: int, date: str) -> str:
