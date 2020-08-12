@@ -32,11 +32,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 def roll_to_text(user_id: int, dice: int, date: str) -> str:
 
     if date == 'all':
-        rolls = database.get_all_rolls(user_id, dice)
+        rolls = database.get_all_rolls(user_id, dice)[1:-1]
     else:
-        rolls = database.RollDatabase().get_rolls(user_id, dice)
+        rolls = database.RollDatabase().get_rolls(user_id, dice)[1:-1]
 
-    to_return = "dataPoints: [ "
+    to_return = ""
     for i, roll in enumerate(rolls):
         to_return += "{{ y: {}, label: '{}' }},".format(roll, i + 1)
     to_return = to_return[:-1]
