@@ -38,7 +38,7 @@ def roll_to_text(user_id: int, dice: int, date: str) -> str:
 
     to_return = ""
     for i, roll in enumerate(rolls):
-        to_return += "[ '{}', {} ],\n".format(i + 1, roll)
+        to_return += "[ '{}', {}, 'blue' ],\n".format(i + 1, roll)
 
     return to_return
 
