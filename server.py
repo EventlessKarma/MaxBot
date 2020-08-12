@@ -25,7 +25,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         template_text = template.read()
         template.close()
         to_send = template_text.replace('DATA_POINTS_IN', roll_to_text(user_id, 20, 'all'))
-        print(to_send)
+
         self.wfile.write(bytes(to_send, 'utf-8'))
 
 
@@ -38,8 +38,7 @@ def roll_to_text(user_id: int, dice: int, date: str) -> str:
 
     to_return = ""
     for i, roll in enumerate(rolls):
-        to_return += "{{ y: {}, label: '{}' }},".format(roll, i + 1)
-    to_return = to_return[:-1]
+        to_return += "[ '{}', {} ],\n".format(i + 1, roll)
 
     return to_return
 
