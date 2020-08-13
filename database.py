@@ -216,7 +216,7 @@ def get_all_rolls(user_id: int, dice: int):
     return lst
 
 
-def update_database(user_id: int, dice: int, roll: int):
+def update_database(user_id: int, dice: int, roll: list):
 
     # open database
     db = RollDatabase()

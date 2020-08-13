@@ -112,8 +112,8 @@ def general_check(self, adv: bool = False) -> (int, int):
         for i in range(2):
             roll[i] += 1
             
-        database.update_database(self.msg_in.author.id, 20, roll[0])
-        database.update_database(self.msg_in.author.id, 20, roll[1])
+        database.update_database(self.msg_in.author.id, 20, [roll[0]])
+        database.update_database(self.msg_in.author.id, 20, [roll[1]])
             
         return roll, modifier
 
@@ -144,7 +144,7 @@ def d_check(self, arg: str) -> (int, str):
 
     for r in rands:
         r += 1
-        database.update_database(self.msg_in.author.id, dice, r)
+        database.update_database(self.msg_in.author.id, dice, [r])
         temp_msg += str(r) + " "
         temp_total += r
 
@@ -170,7 +170,7 @@ def r_check(self, arg: str) -> (int, str):
     try:
         dice = int(arg)
         temp_r = np.random.randint(dice) + 1
-        database.update_database(self.msg_in.author.id, dice, temp_r)
+        database.update_database(self.msg_in.author.id, dice, [temp_r])
         return temp_r, str(temp_r)
 
     except ValueError:
