@@ -24,7 +24,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         template = open('website/google_chart_template.html', 'r')
         template_text = template.read()
         template.close()
-        to_send = template_text.replace('DATA_POINTS_IN', roll_to_text(user_id, 20, 'all'))
+        to_send = template_text.replace('DATA_POINTS_IN', roll_to_text(user_id, 20, 'today'))
 
         self.wfile.write(bytes(to_send, 'utf-8'))
 
