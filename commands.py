@@ -1,5 +1,6 @@
 import discord
 import command_funcs_extra as extra
+import requests
 
 
 class TextCommands:
@@ -111,4 +112,5 @@ def dis(self: TextCommands) -> str:
 
 
 def stats(self: TextCommands) -> str:
-    return "http://86.20.96.233:9999/{}".format(self.msg_in.author.id)
+    public_ip = requests.get('https://api.ipify.org').text
+    return "http://{}}:9999/{}".format(public_ip, self.msg_in.author.id)
