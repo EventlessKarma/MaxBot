@@ -2,7 +2,7 @@ import sqlite3 as sql
 import datetime
 import os
 
-roll_directory = "/home/pi/Documents/RoleServer/roll_data/"
+roll_directory = "roll_data/"
 
 # RollDatabase is used to read and write to database file
 # database structured with:
