@@ -113,4 +113,4 @@ def dis(self: TextCommands) -> str:
 
 def stats(self: TextCommands) -> str:
     public_ip = requests.get('https://api.ipify.org').text
-    return "http://{}}:9999/{}".format(public_ip, self.msg_in.author.id)
+    return "http://{}:9999/{}".format(public_ip, self.msg_in.author.id)
