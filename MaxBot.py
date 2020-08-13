@@ -30,11 +30,12 @@ class MaxBot(discord.Client):
         await message.delete()
 
 
-# retrieve the token to log in
-tok_file = open("/home/pi/Documents/token.txt", "r")
-TOKEN = tok_file.readline()
-tok_file.close()
+if __name__ == "__main__":
+    # retrieve the token to log in
+    tok_file = open("/home/pi/Documents/token.txt", "r")
+    TOKEN = tok_file.readline()
+    tok_file.close()
 
-# start maxbot
-client = MaxBot()
-client.run(TOKEN)
+    # start maxbot
+    client = MaxBot()
+    client.run(TOKEN)
