@@ -21,7 +21,7 @@ TEST_ID = 1
 TEST_NAME = "test"
 PREFIX = "'"
 
-t1 = commands.TextCommands(TestMessage("{}}roll 3d20 20 +4 -3".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t1 = commands.TextCommands(TestMessage("{}roll 3d20 20 +4 -3".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
 
 t2 = commands.TextCommands(TestMessage("{}check".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
 t3 = commands.TextCommands(TestMessage("{}check 5".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
