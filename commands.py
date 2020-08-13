@@ -8,9 +8,16 @@ class TextCommands:
     def __init__(self, msg_in: discord.Message):
 
         self.msg_in = msg_in
+
+        # remove prefix
         self.msg_in.content = self.msg_in.content[1:]
+
+        # separate command and args
         self.msg_args = msg_in.content.split(" ")
-        self.command = self.msg_args[0]
+
+        # command as first word
+        self.command = self.msg_args.pop(0)
+
         self.cmds = {
 
             "roll": roll,
@@ -35,7 +42,7 @@ def roll(self: TextCommands) -> str:
     msg_out = []
 
     # loop over each argument
-    for arg in self.msg_args[1:]:
+    for arg in self.msg_args:
 
         temp_r = None
         temp_msg = None
@@ -68,7 +75,7 @@ def check(self: TextCommands) -> str:
         r = 0
         modifier = 0
 
-    self.msg_args = ["check", "1d20", str(modifier)]
+    self.msg_args = ["1d20", str(modifier)]
 
     return extra.roll_to_code_block(self, [str(r), str(modifier)], r+modifier)
 
@@ -82,7 +89,7 @@ def adv(self: TextCommands) -> str:
         r = [0, 0]
         modifier = 0
 
-    self.msg_args = ["adv", "2d20", str(modifier)]
+    self.msg_args = ["2d20", str(modifier)]
 
     if r[0] > r[1]:
         total = r[0] + modifier
@@ -101,14 +108,14 @@ def dis(self: TextCommands) -> str:
         r = [0, 0]
         modifier = 0
 
-    self.msg_args = ["dis", "2d20", str(modifier)]
+    self.msg_args = ["2d20", str(modifier)]
 
     if r[0] < r[1]:
         total = r[0] + modifier
     else:
         total = r[1] + modifier
 
-    return extra.roll_to_code_block(self, ["{} {}".format(str(r[0]), str(r[1])), str(modifier)], total )
+    return extra.roll_to_code_block(self, ["{} {}".format(str(r[0]), str(r[1])), str(modifier)], total)
 
 
 def stats(self: TextCommands) -> str:

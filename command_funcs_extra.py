@@ -65,6 +65,7 @@ def roll_to_code_block(self, roll_out: list, total: int) -> str:
     # start code block
     msg = "```css\n"
     msg += "{" + self.msg_in.author.name.replace(" ", "") + ": ' "  # username
+    msg += "{} ".format(self.command)
 
     # print full user command
     for i in self.msg_args:
@@ -72,7 +73,7 @@ def roll_to_code_block(self, roll_out: list, total: int) -> str:
     msg += "'}\n"
 
     # print arguments and responses
-    for i, j in zip(self.msg_args[1:], roll_out):
+    for i, j in zip(self.msg_args, roll_out):
         msg += ":{} {}\n".format(i, j)
 
     # finally print total roll
@@ -87,14 +88,14 @@ def roll_to_code_block(self, roll_out: list, total: int) -> str:
 def general_check(self, adv: bool = False) -> (int, int):
 
     # if no modifier arg is found set it to 0
-    if len(self.msg_args):
+    if not len(self.msg_args):
         modifier = 0
 
     else:
         
         # try to turn modifier arg into int
         try: 
-            modifier = int(self.msg_args[1])
+            modifier = int(self.msg_args[0])
         except ValueError:
             
             # failure returns the roll as 0
@@ -103,7 +104,7 @@ def general_check(self, adv: bool = False) -> (int, int):
     # for normal check roll a d20
     if not adv:
         roll = np.random.randint(20) + 1
-        database.update_database(self.msg_in.author.id, 20, roll)
+        database.update_database(self.msg_in.author.id, 20, [roll])
         return roll, modifier
 
     # for adv/disadv roll 2d20
