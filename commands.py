@@ -146,9 +146,6 @@ def word(self: TextCommands) -> str:
 def help(self: TextCommands) -> str:
 
     help_msg = """
-    -------- RawSauce --------
-    https://github.com/EventlessKarma/MaxBot
-    
     ```css
     {{MaxBot: ' help! '}}
     
@@ -156,19 +153,19 @@ def help(self: TextCommands) -> str:
     Separate command and arguments with space
     commands must be preceeded by {PREFIX}
     
-    :roll   will roll a dice of sides up to 100, can chain multiple arguments
-            Arguments --> [ ndx ] where n is number of rolls and x is dice size
-                          [ x ] where x is dice size
-                          [ +x ] where x is a number will add modifier
+    :roll   will roll a dice, can chain multiple arguments
+            Arguments --> [ ndx ] will make n rolls of size x
+                          [ x ] will roll once with dice size of x
+                          [ +x ] will add a modifier of size x
     
     :check  will roll a d20 dice
-            Arguments --> [ x ] where x is the modifier
+            Arguments --> [ x ] will add a modifier of size x
     
     :adv    will roll a d20 with advantage
-            Arguments --> [ x ] where x is the modifier
+            Arguments --> [ x ] will add a modifier of size x
             
     :dis    will roll a d20 with disadvantage
-            Arguments --> [ x ] where x is the modifier
+            Arguments --> [ x ] will add a modifier of size x
     
     :help   displays this message
     
@@ -177,6 +174,10 @@ def help(self: TextCommands) -> str:
     thank you for your cooperation
     
     ```
+    
+    -------- RawSauce --------
+    https://github.com/EventlessKarma/MaxBot
+    
     """.format(PREFIX=self.PREFIX)
 
     return help_msg
