@@ -1,6 +1,7 @@
 import discord
 import command_funcs_extra as extra
 import requests
+import json
 
 
 class TextCommands:
@@ -24,7 +25,8 @@ class TextCommands:
             "adv": adv,
             "dis": dis,
             "check": check,
-            "stats": stats
+            "stats": stats,
+            "word": word
 
         }
 
@@ -121,3 +123,20 @@ def dis(self: TextCommands) -> str:
 def stats(self: TextCommands) -> str:
     public_ip = requests.get('https://api.ipify.org').text
     return "http://{}:9999/{}".format(public_ip, self.msg_in.author.id)
+
+
+def word(self: TextCommands) -> str:
+
+    f = open('words.json', 'r')
+    data = json.load(f)
+    f.close()
+    to_convert = self.msg_in.content[4:]
+
+    to_return = ''
+    for i in range(1, 3):
+        for j in to_convert:
+            to_return += data[str(j)][str(i)] + ' '
+
+        to_return += '\n'
+
+    return to_return

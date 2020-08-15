@@ -5,6 +5,7 @@ import command_funcs_extra
 import database
 
 
+
 class Author:
     def __init__(self, id: int, name: str):
         self.id = id
@@ -36,7 +37,7 @@ t8 = commands.TextCommands(TestMessage("{}stats".format(PREFIX), Author(TEST_ID,
 
 print(t1, t2, t3, t4, t5, t6, t7, t8)
 
-
+print(commands.word("wow"))
 
 
 
