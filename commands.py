@@ -26,7 +26,8 @@ class TextCommands:
             "dis": dis,
             "check": check,
             "stats": stats,
-            "word": word
+            "word": word,
+            'help': help
 
         }
 
@@ -139,3 +140,38 @@ def word(self: TextCommands) -> str:
         to_return += '\n'
 
     return to_return
+
+
+def help(self: TextCommands) -> str:
+    help_msg = """
+    ```css
+    {MaxBot: ' help! '}
+    :Raw Sauce https://github.com/EventlessKarma/MaxBot
+    
+    --------------------- Commands --------------------
+    Separate command and arguments with space
+    
+    :roll   will roll a dice of sides up to 100, can chain multiple arguments
+            Arguments --> [ ndx ] where n is number of rolls and x is dice size
+                          [ x ] where x is dice size
+                          [ +x ] where x is a number will add modifier
+    
+    :check  will roll a d20 dice
+            Arguments --> [ x ] where x is the modifier
+    
+    :adv    will roll a d20 with advantage
+            Arguments --> [ x ] where x is the modifier
+            
+    :dis    will roll a d20 with disadvantage
+            Arguments --> [ x ] where x is the modifier
+    
+    :help   displays this message
+    
+    IF YOU TYPE THE COMMAND/ARGS WRONG IT WILL NOT WORK
+    
+    thank you for your cooperation
+    
+    ```
+    """
+
+    return help_msg

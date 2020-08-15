@@ -56,10 +56,6 @@ def random_line(afile):
     return line
 
 
-def help():
-    pass
-
-
 def roll_to_code_block(self, roll_out: list, total: int) -> str:
 
     # start code block
