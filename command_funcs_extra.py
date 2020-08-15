@@ -6,6 +6,7 @@ import math
 import random
 
 
+# old function used to generate roll graphs
 def get_stats(user_name: str, user_id: int, args, date: str = "today"):
     # get dice and check size
     try:
@@ -56,14 +57,17 @@ def random_line(afile):
     return line
 
 
+# converts roll output and arguments into more readable form
 def roll_to_code_block(self, roll_out: list, total: int) -> str:
 
-    # start code block
+    # output code block uses highlight.js
+
+    # start code block with css format
     msg = "```css\n"
     msg += "{" + self.msg_in.author.name.replace(" ", "") + ": ' "  # username
-    msg += "{} ".format(self.command)
+    msg += "{} ".format(self.command)  # users command
 
-    # print full user command
+    # print all users arguments
     for i in self.msg_args:
         msg += i + " "
     msg += "'}\n"
@@ -115,6 +119,7 @@ def general_check(self, adv: bool = False) -> (int, int):
         return roll, modifier
 
 
+# for checking roll arguments of ndx form
 def d_check(self, arg: str) -> (int, str):
     
     # find position of d
@@ -125,36 +130,45 @@ def d_check(self, arg: str) -> (int, str):
 
     try:
 
+        # get rolls and dice from arguments
         dice = int(arg[d_pos + 1:])
         n_rolls = int(arg[:d_pos])
 
     except ValueError:
         raise RuntimeError('Inappropriate argument for d_check')
 
+    # stop scott rolling a trillion times at once
     if n_rolls > 100:
         return 0, "Too many rolls at once"
 
+    # numpy returns array of random numbers from [0] to [dice-1]
     rands = np.random.randint(dice, size=n_rolls)
 
     temp_msg = ""
     temp_total = 0
 
+    # loop over all numbers generated
     for r in rands:
+        # plus one as generated starts from 0
         r += 1
         database.update_database(self.msg_in.author.id, dice, [r])
         temp_msg += str(r) + " "
         temp_total += r
 
+    # return total of all rolls and string of individual rolls
     return temp_total, temp_msg
 
 
+# for checking roll args for modifier
 def m_check(self, arg: str) -> (int, str):
-    
+
+    # search for instance of +/- to signal a modifier
     if arg.rfind('+') == -1 and arg.rfind('-') == -1:
         raise RuntimeError('Inappropriate argument for m_check')
 
     try:
-        
+
+        # convert the argument into integer for modifier
         mod = int(arg)
         return mod, str(mod)
 
@@ -162,8 +176,10 @@ def m_check(self, arg: str) -> (int, str):
         raise RuntimeError('Inappropriate argument for m_check')
 
 
+# for checking roll args for single roll
 def r_check(self, arg: str) -> (int, str):
-    
+
+    # if the arg can be converted to integer it is one roll
     try:
         dice = int(arg)
         temp_r = np.random.randint(dice) + 1
@@ -174,6 +190,7 @@ def r_check(self, arg: str) -> (int, str):
         raise RuntimeError('Inappropriate argument for r_check')
 
 
+# group the roll checks for easy access
 arg_to_roll = [
 
     d_check,

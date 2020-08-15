@@ -4,11 +4,15 @@ import commands
 import command_funcs_extra
 import database
 
+"""
+for testing modules and functions without starting maxbot
+"""
 
 
+# imitate discord.Message class
 class Author:
-    def __init__(self, id: int, name: str):
-        self.id = id
+    def __init__(self, user_id: int, name: str):
+        self.id = user_id
         self.name = name
 
 
@@ -18,6 +22,7 @@ class TestMessage:
         self.author = author
 
 
+# rolls will be saved under these details
 TEST_ID = 1
 TEST_NAME = "test"
 PREFIX = "'"
@@ -36,8 +41,6 @@ t7 = commands.TextCommands(TestMessage("{}dis 3".format(PREFIX), Author(TEST_ID,
 t8 = commands.TextCommands(TestMessage("{}stats".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
 
 print(t1, t2, t3, t4, t5, t6, t7, t8)
-
-print(commands.word("wow"))
 
 
 

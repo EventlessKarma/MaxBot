@@ -5,6 +5,7 @@ import database
 PORT = 9999
 
 
+# class handles the http requests
 class Handler(http.server.SimpleHTTPRequestHandler):
     def set_headers(self):
         self.send_response(200)
@@ -16,26 +17,34 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         print(self.path)
 
+        # expect the path to be the user id
         try:
             user_id = int(self.path[1:])
         except ValueError:
             return
 
+        # read in the website html template
         template = open('website/google_chart_template.html', 'r')
         template_text = template.read()
         template.close()
+
+        # substitute the roll data for the specific user id into the html string
         to_send = template_text.replace('DATA_POINTS_IN', roll_to_text(user_id, 20, 'today'))
 
+        # submit the html
         self.wfile.write(bytes(to_send, 'utf-8'))
 
 
+# get string of roll data compatible with google charts format
 def roll_to_text(user_id: int, dice: int, date: str) -> str:
 
+    # determine what data to retrieve
     if date == 'all':
         rolls = database.get_all_rolls(user_id, dice)[1:-1]
     else:
         rolls = database.RollDatabase().get_rolls(user_id, dice)[1:-1]
 
+    # format for google charts
     to_return = ""
     for i, roll in enumerate(rolls):
         to_return += "[ '{}', {}, 'blue' ],\n".format(i + 1, roll)
