@@ -134,9 +134,9 @@ def word(self: TextCommands) -> str:
     to_convert = self.msg_in.content[4:]
 
     to_return = ''
-    for i in range(1, 3):
+    for i in range(3):
         for j in to_convert:
-            to_return += data[str(j)][str(i)] + ' '
+            to_return += data[str(j)][str(i+1)] + ' '
 
         to_return += '\n'
 
