@@ -151,7 +151,7 @@ def help(self: TextCommands) -> str:
     
     --------------------- Commands --------------------
     Separate command and arguments with space
-    commands must be preceeded by {PREFIX}
+    commands must be preceded by {PREFIX}
     
     :roll   will roll a dice, can chain multiple arguments
             Arguments --> [ ndx ] will make n rolls of size x
