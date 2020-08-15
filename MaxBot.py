@@ -20,7 +20,7 @@ class MaxBot(discord.Client):
         if not message.content or not message.content[0] == prefix:
             return
 
-        txt_cmd = commands.TextCommands(message)
+        txt_cmd = commands.TextCommands(prefix, message)
         msg_out = txt_cmd.do()
 
         if msg_out is None:
