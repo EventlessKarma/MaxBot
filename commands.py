@@ -135,7 +135,7 @@ def word(self: TextCommands) -> str:
     f.close()
     print('closed')
     to_convert = self.msg_in.content[3:]
-    print(to_convert)
+    print(data)
 
     to_return = ''
     for i in range(3):
