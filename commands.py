@@ -6,8 +6,9 @@ import json
 
 class TextCommands:
 
-    def __init__(self, msg_in: discord.Message):
+    def __init__(self, prefix: str, msg_in: discord.Message):
 
+        self.PREFIX = prefix
         self.msg_in = msg_in
 
         # remove prefix
@@ -143,15 +144,17 @@ def word(self: TextCommands) -> str:
 
 
 def help(self: TextCommands) -> str:
+
     help_msg = """
     -------- RawSauce --------
     https://github.com/EventlessKarma/MaxBot
     
     ```css
-    {MaxBot: ' help! '}
+    {{MaxBot: ' help! '}}
     
     --------------------- Commands --------------------
     Separate command and arguments with space
+    commands must be preceeded by {PREFIX}
     
     :roll   will roll a dice of sides up to 100, can chain multiple arguments
             Arguments --> [ ndx ] where n is number of rolls and x is dice size
@@ -174,6 +177,6 @@ def help(self: TextCommands) -> str:
     thank you for your cooperation
     
     ```
-    """
+    """.format(PREFIX=self.PREFIX)
 
     return help_msg
