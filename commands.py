@@ -144,9 +144,11 @@ def word(self: TextCommands) -> str:
 
 def help(self: TextCommands) -> str:
     help_msg = """
+    -------- RawSauce --------
+    https://github.com/EventlessKarma/MaxBot
+    
     ```css
     {MaxBot: ' help! '}
-    :Raw Sauce https://github.com/EventlessKarma/MaxBot
     
     --------------------- Commands --------------------
     Separate command and arguments with space
