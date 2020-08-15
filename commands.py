@@ -127,6 +127,7 @@ def stats(self: TextCommands) -> str:
 
 def word(self: TextCommands) -> str:
 
+    print("donit fowf")
     f = open('words.json', 'r')
     data = json.load(f)
     f.close()
