@@ -130,11 +130,10 @@ def word(self: TextCommands) -> str:
     f = open('words.json', 'r')
     data = json.load(f)
     f.close()
-    to_convert = self.msg_in.content[5:]
 
     to_return = ''
     for i in range(3):
-        for j in to_convert:
+        for j in self.msg_in.content[5:].lower():
             to_return += data[str(j)][str(i+1)] + ' '
 
         to_return += '\n'
