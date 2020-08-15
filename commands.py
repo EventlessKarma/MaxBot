@@ -134,7 +134,7 @@ def word(self: TextCommands) -> str:
     print('loaded')
     f.close()
     print('closed')
-    to_convert = self.msg_in.content[3:]
+    to_convert = self.msg_in.content[5:]
     print(data)
 
     to_return = ''
