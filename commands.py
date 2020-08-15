@@ -129,9 +129,13 @@ def word(self: TextCommands) -> str:
 
     print("donit fowf")
     f = open('words.json', 'r')
+    print('opened')
     data = json.load(f)
+    print('loaded')
     f.close()
+    print('closed')
     to_convert = self.msg_in.content[4:]
+    print('converted')
 
     to_return = ''
     for i in range(3):
