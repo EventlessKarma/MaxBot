@@ -46,17 +46,6 @@ t8 = commands.TextCommands(PREFIX, TestMessage("{}stats".format(PREFIX), Author(
 print(t1, t2, t3, t4, t5, t6, t7, t8)
 
 
-db = database_json.Database()
-date = datetime.date.today()
-rand = np.random.randint(20, size=100)
-print(db.data)
-for r in rand:
-    db.save(1, "na", 20, r)
-    db.save(1, 'df', 21, r)
-    db.save(1, 'dfdf', 22, r)
-    db.save(2, 'wow', 30, r)
-    db.save(3, 'odo', 23, r)
-
 database_json.update_from_history()
 
 
