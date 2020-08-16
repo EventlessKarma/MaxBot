@@ -1,4 +1,5 @@
 import numpy as np
+import database_json
 import database
 import matplotlib.pyplot as plt
 import datetime
@@ -101,11 +102,13 @@ def general_check(self, adv: bool = False) -> (int, int):
             # failure returns the roll as 0
             raise RuntimeError("Invalid modifier argument for general_check")
 
+    json_db = database_json.Database()
+
     # for normal check roll a d20
     if not adv:
         roll = np.random.randint(20) + 1
-        database.update_database(self.msg_in.author.id, 20, [roll])
-        return roll, modifier
+        # database.update_database(self.msg_in.author.id, 20, [roll])
+        json_db.update(self.msg_in.author.id, self.msg_in.author.name, 20, roll)
 
     # for adv/disadv roll 2d20
     else:
@@ -113,10 +116,13 @@ def general_check(self, adv: bool = False) -> (int, int):
         for i in range(2):
             roll[i] += 1
             
-        database.update_database(self.msg_in.author.id, 20, [roll[0]])
-        database.update_database(self.msg_in.author.id, 20, [roll[1]])
-            
-        return roll, modifier
+        # database.update_database(self.msg_in.author.id, 20, [roll[0]])
+        # database.update_database(self.msg_in.author.id, 20, [roll[1]])
+        json_db.update(self.msg_in.author.id, self.msg_in.author.name, 20, roll[0])
+        json_db.update(self.msg_in.author.id, self.msg_in.author.name, 20, roll[1])
+
+    del json_db
+    return roll, modifier
 
 
 # for checking roll arguments of ndx form
@@ -147,11 +153,14 @@ def d_check(self, arg: str) -> (int, str):
     temp_msg = ""
     temp_total = 0
 
+    json_db = database_json.Database()
+
     # loop over all numbers generated
     for r in rands:
         # plus one as generated starts from 0
         r += 1
-        database.update_database(self.msg_in.author.id, dice, [r])
+        # database.update_database(self.msg_in.author.id, dice, [r])
+        json_db.update(self.msg_in.author.id, self.msg_in.author.name, dice, r)
         temp_msg += str(r) + " "
         temp_total += r
 
@@ -183,7 +192,9 @@ def r_check(self, arg: str) -> (int, str):
     try:
         dice = int(arg)
         temp_r = np.random.randint(dice) + 1
-        database.update_database(self.msg_in.author.id, dice, [temp_r])
+        # database.update_database(self.msg_in.author.id, dice, [temp_r])
+        json_db = database_json.Database()
+        json_db.update(self.msg_in.author.id, self.msg_in.author.name, dice, temp_r)
         return temp_r, str(temp_r)
 
     except ValueError:
