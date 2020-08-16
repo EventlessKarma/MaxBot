@@ -30,28 +30,33 @@ TEST_ID = 1
 TEST_NAME = "test"
 PREFIX = "'"
 
-t1 = commands.TextCommands(TestMessage("{}roll 3d20 20 +4 -3".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t1 = commands.TextCommands(PREFIX, TestMessage("{}roll 3d20 20 +4 -3".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
 
-t2 = commands.TextCommands(TestMessage("{}check".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
-t3 = commands.TextCommands(TestMessage("{}check 5".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t2 = commands.TextCommands(PREFIX, TestMessage("{}check".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t3 = commands.TextCommands(PREFIX, TestMessage("{}check 5".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
 
-t4 = commands.TextCommands(TestMessage("{}adv".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
-t5 = commands.TextCommands(TestMessage("{}adv -3".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t4 = commands.TextCommands(PREFIX, TestMessage("{}adv".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t5 = commands.TextCommands(PREFIX, TestMessage("{}adv -3".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
 
-t6 = commands.TextCommands(TestMessage("{}dis".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
-t7 = commands.TextCommands(TestMessage("{}dis 3".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t6 = commands.TextCommands(PREFIX, TestMessage("{}dis".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t7 = commands.TextCommands(PREFIX, TestMessage("{}dis 3".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
 
-t8 = commands.TextCommands(TestMessage("{}stats".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
+t8 = commands.TextCommands(PREFIX, TestMessage("{}stats".format(PREFIX), Author(TEST_ID, TEST_NAME))).do()
 
 print(t1, t2, t3, t4, t5, t6, t7, t8)
 
 
-db = database_json.Database
+db = database_json.Database()
 date = datetime.date.today()
 rand = np.random.randint(20, size=100)
+print(db.data)
 for r in rand:
-    db.save(1, date, 20)
+    db.save(1, "na", 20, r)
+    db.save(1, 'df', 21, r)
+    db.save(1, 'dfdf', 22, r)
+    db.save(2, 'wow', 30, r)
+    db.save(3, 'odo', 23, r)
 
-print(db.get(1, date, 20))
+database_json.update_from_history()
 
 
