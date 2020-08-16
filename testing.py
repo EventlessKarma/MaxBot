@@ -3,6 +3,9 @@ import server
 import commands
 import command_funcs_extra
 import database
+import datetime
+import database_json
+import numpy as np
 
 """
 for testing modules and functions without starting maxbot
@@ -43,7 +46,12 @@ t8 = commands.TextCommands(TestMessage("{}stats".format(PREFIX), Author(TEST_ID,
 print(t1, t2, t3, t4, t5, t6, t7, t8)
 
 
+db = database_json.Database
+date = datetime.date.today()
+rand = np.random.randint(20, size=100)
+for r in rand:
+    db.save(1, date, 20)
 
-
+print(db.get(1, date, 20))
 
 
