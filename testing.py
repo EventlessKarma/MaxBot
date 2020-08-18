@@ -45,7 +45,9 @@ t8 = commands.TextCommands(PREFIX, TestMessage("{}stats".format(PREFIX), Author(
 
 print(t1, t2, t3, t4, t5, t6, t7, t8)
 
+# database_json.update_from_history()
 
-database_json.update_from_history()
-
-
+db_json = database_json.Database()
+db_json.update(1, "testname", 20, 1, datetime.date(2020, 8, 13))
+print(db_json.get(1, datetime.date(2020, 8, 13), 20))
+del db_json
