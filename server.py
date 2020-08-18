@@ -1,6 +1,7 @@
 import http.server
 import socketserver
-import database
+import database_json
+import datetime
 
 PORT = 9999
 
@@ -38,11 +39,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 # get string of roll data compatible with google charts format
 def roll_to_text(user_id: int, dice: int, date: str) -> str:
 
+    db_json = database_json.Database()
+
     # determine what data to retrieve
     if date == 'all':
-        rolls = database.get_all_rolls(user_id, dice)[1:-1]
+        # rolls = database.get_all_rolls(user_id, dice)[1:-1]
+        rolls = db_json.get(user_id, datetime.date.today(), dice)
     else:
-        rolls = database.RollDatabase().get_rolls(user_id, dice)[1:-1]
+        rolls = db_json.get(user_id, datetime.date.today(), dice)
 
     # format for google charts
     to_return = ""
